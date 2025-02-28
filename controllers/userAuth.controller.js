@@ -33,6 +33,7 @@ export const signIn = async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'User signed in successfully',
+            role:"User",
             data: {
               token,
               user,
