@@ -18,8 +18,6 @@ const userMiddleware = async (req, res, next) => {
     } catch (error) {
       return res.status(401).json({ message: 'Unauthorized: Invalid or expired token', error: error.message });
     }
-
-    // Use 'id' from the decoded token instead of 'userId'
     const user = await User.findById(decoded.id);
 
     if (!user) {
