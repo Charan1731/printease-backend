@@ -14,14 +14,12 @@ const pdfSchema = new mongoose.Schema({
         type:Number
     },
     mimeType:{
-        type:String
+        type:String,
+        required: true
     },
     printType:{
         type:String,
         enum:['Black&White','Color','Lamination',]
-    },
-    cost:{
-        type:Number
     },
     uploadedBy:{
         type:mongoose.Schema.Types.ObjectId,
@@ -37,11 +35,11 @@ const pdfSchema = new mongoose.Schema({
     timestamps:true
 })
 
-pdfSchema.pre('save', function(next){
-    if(!this.cost){
+// pdfSchema.pre('save', function(next){
+//     if(!this.cost){
 
-    }
-})
+//     }
+// })
 
 const PDF = mongoose.model("PDF",pdfSchema)
 

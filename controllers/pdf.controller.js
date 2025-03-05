@@ -13,6 +13,8 @@ const pdfValidation = z.object({
 export const uploadPDF = async (req, res) => {
     try {
 
+        console.log(req.file)
+
         if(!req.file){
             return res.status(400).json({
                 success: false,
@@ -20,21 +22,27 @@ export const uploadPDF = async (req, res) => {
             });
         }
 
+        console.log("mimetype : ", req.body.mimeType)
+
         const newPDF = new PDF({
             filename: req.file.originalname,
             s3_url: req.file.location,
             fileSize: req.file.size,
-            mimetype: req.file.mimetype,
+            mimeType: req.body.mimeType,
             uploadedBy: req.user._id,
             status: 'pending'
         })
 
-        await newPDF.save();
+        console.log("Saving to database", newPDF)
+
+        const saved = await newPDF.save();
+
+        console.log("Saved sucessfully", saved)
 
         res.status(201).json({
             success: true,
             message: "PDF uploaded successfully!",
-            data: newPDF
+            data: saved
         });
         
     } catch (error) {
@@ -49,8 +57,8 @@ export const uploadPDF = async (req, res) => {
 export const getPDFs = async (req,res) => {
     try {
 
-        const page = parseInt(req,query.page) || 1;
-        const limit = parseInt(req,query.limit) || 10;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
 
         const pdfs = await PDF.find({uploadedBy: req.user._id})
