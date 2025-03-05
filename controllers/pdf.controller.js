@@ -28,7 +28,7 @@ export const uploadPDF = async (req, res) => {
             filename: req.file.originalname,
             s3_url: req.file.location,
             fileSize: req.file.size,
-            mimeType: req.body.mimeType,
+            mimeType: req.file.mimetype,
             uploadedBy: req.user._id,
             status: 'pending'
         })
@@ -92,8 +92,10 @@ export const getPDFById = async (req,res) => {
 
         const pdf = await PDF.find({
             _id: req.params.id,
-            uploadedBy:req.user._id
+            // uploadedBy:req.user._id
         })
+
+        console.log(pdf)
 
         if(!pdf){
             return res.status(400).json({

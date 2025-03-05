@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import connectToDB from './database/mongodb.js';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/user.routes.js';
@@ -7,29 +8,26 @@ import errorMiddleware from './middlewares/errorMiddleware.js';
 import pdfRouter from './routes/pdf.routes.js';
 
 const app = express();
-const allowedOrigin = ["http://localhost:5173"];
 
-app.use((req, res, next) => {
-    if (allowedOrigin.includes(req.headers.origin)) {
-        res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-    }
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
+// Allow CORS for your frontend origin
+const corsOptions = {
+    origin: "http://localhost:5173",
+    credentials: true, // Allow cookies
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+};
+
+// Use CORS middleware
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
 
-
-
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/vendor', vendorRouter);
-app.use('/api/v1/pdf', pdfRouter)
+app.use('/api/v1/pdf', pdfRouter);
 
-app.use(errorMiddleware)
-
-
+app.use(errorMiddleware);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -37,9 +35,7 @@ app.get('/', (req, res) => {
 
 app.listen(3000, async () => {
     console.log('Server is running on port http://localhost:3000');
-
     await connectToDB();
-})
-
+});
 
 export default app;
