@@ -21,6 +21,10 @@ const pdfSchema = new mongoose.Schema({
         type:String,
         enum:['Black&White','Color','Lamination',]
     },
+    pages:{
+        type:Number,
+        required:true
+    },
     uploadedBy:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',

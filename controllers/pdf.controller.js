@@ -1,5 +1,6 @@
 import PDF from '../models/pdfSchema.js';
 import { z } from 'zod';
+import countPages from '../utils/pages.js';
 
 const pdfValidation = z.object({
     filename: z.string(),
@@ -22,7 +23,7 @@ export const uploadPDF = async (req, res) => {
             });
         }
 
-        console.log("mimetype : ", req.body.mimeType)
+        const pages = await countPages(req.file.location);
 
         const newPDF = new PDF({
             filename: req.file.originalname,
@@ -30,6 +31,7 @@ export const uploadPDF = async (req, res) => {
             fileSize: req.file.size,
             mimeType: req.file.mimetype,
             uploadedBy: req.user._id,
+            pages:pages,
             status: 'pending'
         })
 
