@@ -56,28 +56,35 @@ export const uploadPDF = async (req, res) => {
     }
 }
 
-export const getPDFs = async (req,res) => {
+export const vendorPDFs = async (req,res) => {
     try {
 
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
-
-        const pdfs = await PDF.find({uploadedBy: req.user._id})
-            .sort({createdAt: -1})
-            .skip(skip)
-            .limit(limit)
-
-        const total = await PDF.countDocuments({uploadedBy: req.user._id});
+        const pdfs = await PDF.find({})
 
         res.status(200).json({
             success: true,
-            data: {
-                pdfs,
-                totalPages: Math.ceil(total / limit),
-                currentPage: page,
-                totalItems: total
-            }
+            data: pdfs
+        })
+        
+    } catch (error) {
+        console.log('Fetch error: ', error)
+        res.status(500).json({
+            success:false,
+            message: error.message
+        })
+    }
+}
+
+export const getUserPDFs = async (req,res) => {
+    try {
+
+        const pdfs = await PDF.find({
+            uploadedBy: req.user._id
+        })
+
+        res.status(200).json({
+            success: true,
+            data: pdfs
         })
         
     } catch (error) {
@@ -94,7 +101,6 @@ export const getPDFById = async (req,res) => {
 
         const pdf = await PDF.find({
             _id: req.params.id,
-            // uploadedBy:req.user._id
         })
 
         console.log(pdf)
@@ -113,6 +119,32 @@ export const getPDFById = async (req,res) => {
         
     } catch (error) {
         console.log("Fetch error", error)
+        res.status(500).json({
+            success:false,
+            message: error.message
+        })
+    }
+}
+
+export const updateStatus = async (req, res) => {
+    try {
+
+        const id = req.params.id;
+
+        const updatedPDF = await PDF.findByIdAndUpdate(id, {
+            status: req.body.status
+        }, {
+            new: true
+        })
+
+        res.status(200).json({
+            success: true,
+            message: "Status updated successfully",
+            data: updatedPDF
+        })
+        
+    } catch (error) {
+        console.log("Update error", error)
         res.status(500).json({
             success:false,
             message: error.message

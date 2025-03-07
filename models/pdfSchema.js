@@ -32,7 +32,7 @@ const pdfSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'processing', 'completed', 'failed'],
+        enum: ['pending', 'processing', 'completed', 'rejected'],
         default: 'pending'
     }
 },{
