@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import User from '../models/userSchema.js';
@@ -60,6 +61,7 @@ export const signUp = async (req, res) => {
 
         const newUser = await User.create({ name, email, password: hashedPassword });
 
+        // eslint-disable-next-line no-undef
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
 
         res.status(201).json({

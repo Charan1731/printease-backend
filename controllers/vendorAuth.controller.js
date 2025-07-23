@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 import jwt from "jsonwebtoken"
-import bcrypt, { genSalt } from "bcryptjs"
+import bcrypt from "bcryptjs"
 import Vendor from "../models/vendorSchema.js"
 import { z } from "zod"
 import dotenv from "dotenv"

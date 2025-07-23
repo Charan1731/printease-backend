@@ -4,7 +4,7 @@ import multerS3 from "multer-s3";
 import dotenv from "dotenv";
 
 dotenv.config();
-
+/* eslint-disable no-undef */
 const s3 = new S3Client({
     region: process.env.AWS_REGION,
     credentials: {
@@ -12,6 +12,7 @@ const s3 = new S3Client({
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     }
 });
+
 
 // File filtering function
 const fileFilter = (req, file, cb) => {
@@ -25,7 +26,7 @@ const fileFilter = (req, file, cb) => {
 // Configure Multer for S3
 export const upload = multer({
     limits: {
-        fileSize: 10 * 1024 * 1024, // 10MB file size limit
+        fileSize: 100 * 1024 * 1024, // 100MB file size limit
     },
     fileFilter,
     storage: multerS3({
