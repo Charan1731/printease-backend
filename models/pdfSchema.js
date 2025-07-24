@@ -19,7 +19,7 @@ const pdfSchema = new mongoose.Schema({
     },
     printType:{
         type:String,
-        enum:['Black&White','Color','Lamination',]
+        enum:['Black&cyan','Color','Lamination',]
     },
     pages:{
         type:Number,

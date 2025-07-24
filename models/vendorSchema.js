@@ -14,6 +14,11 @@ const vendorSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    userType:{
+        type:String,
+        default:'vendor',
+        enum:['vendor']
     }
 },{
     timestamps:true

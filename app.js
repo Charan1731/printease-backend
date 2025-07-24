@@ -11,7 +11,7 @@ const app = express();
 
 // Allow CORS for your frontend origin
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:3000",
     credentials: true, // Allow cookies
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
@@ -33,8 +33,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.listen(3000, async () => {
-    console.log('Server is running on port http://localhost:3000');
+app.listen(8080, async () => {
+    console.log('Server is running on port http://localhost:8080');
     await connectToDB();
 });
 

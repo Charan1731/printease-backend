@@ -14,6 +14,11 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    userType:{
+        type:String,
+        default:'user',
+        enum:['user']
     }
 },{
     timestamps:true
