@@ -20,7 +20,9 @@ const corsOptions = {
 // Use CORS middleware
 app.use(cors(corsOptions));
 
-app.use(express.json());
+// Increase body parser limits for file uploads
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 
 app.use('/api/v1/user', userRouter);

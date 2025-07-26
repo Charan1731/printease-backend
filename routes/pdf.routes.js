@@ -10,7 +10,7 @@ pdfRouter.post('/upload',userMiddleware,upload.single('pdf'),uploadPDF)
 
 pdfRouter.get('/',vendorMiddleware,vendorPDFs)
 
-pdfRouter.get('/:id',userMiddleware, getUserPDFs)
+pdfRouter.get('/user/:id',userMiddleware, getUserPDFs)
 
 pdfRouter.get('/:id',vendorMiddleware, getPDFById)
 
